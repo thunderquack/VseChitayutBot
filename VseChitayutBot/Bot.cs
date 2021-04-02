@@ -32,17 +32,29 @@ namespace VseChitayutBot
             {
                 SetChannelSettings(e.Message);
             }
+            if (productiveMode)
+            {
+
+            }
         }
 
         private void SetChannelSettings(Message message)
         {
             long id = message.ForwardFromChat.Id;
             Chat chat = GetChatAsync(id).Result;
-            if (chat.Type == Telegram.Bot.Types.Enums.ChatType.Channel)
+            if (chat.Type == ChatType.Channel)
+            {
                 channelId = id;
-            if (chat.Type == ChatType.Group||chat.Type==ChatType.Supergroup)
+                string msg = string.Format("Канал {0} с id {1} сохранен", chat.Title, chat.Id);
+                SendTextMessageAsync(message.From.Id, msg);
+            }
+            if (chat.Type == ChatType.Group || chat.Type == ChatType.Supergroup)
+            {
                 chatId = id;
-            if (channelId != 0 && chatId != 0) SaveSettings();
+                string msg = string.Format("Чат {0} с id {1} сохранен", chat.Title, chat.Id);
+                SendTextMessageAsync(message.From.Id, msg);
+            }
+                if (channelId != 0 && chatId != 0) SaveSettings();
         }
         private void LoadSettings()
         {
