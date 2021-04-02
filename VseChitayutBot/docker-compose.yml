@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+    vsechitayut:
+        build: .
+        cap_add:
+         - ALL
+        restart: always
+        container_name: "vsechitayut"
+        hostname: vsechitayut
+        volumes:
+         - .:/var/vsechitayut
+        dns:
+         - 8.8.8.8
+         - 8.8.4.4
