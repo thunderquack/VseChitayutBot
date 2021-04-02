@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
@@ -47,11 +49,25 @@ namespace VseChitayutBot
             }
         }
 
-
         private void RemoveMessageFromChat(Message message)
         {
-            DeleteMessageAsync(chatId, message.MessageId).Wait();
-            UnpinChatMessageAsync(chatId).Wait();
+            //DeleteMessageAsync(chatId, message.MessageId).Wait();
+            int tries = 10;
+            while (tries > 0)
+            {
+                try
+                {
+                    tries--;
+                    MakeRequestAsync(new UnpinAllChatMessagesRequest(chatId));
+                  // UnpinChatMessageAsync(chatId).Wait();
+                    tries = 0;                    
+                }
+                catch
+                (Exception err)
+                {
+                    System.Threading.Thread.Sleep(1000);
+                }
+            }
         }
         private void SetChannelSettings(Message message)
         {
