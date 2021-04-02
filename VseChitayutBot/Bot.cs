@@ -34,8 +34,15 @@ namespace VseChitayutBot
             }
             if (productiveMode)
             {
-
+                if (e.Message.ForwardFromChat?.Id == channelId &&
+                    e.Message.Chat?.Id == chatId)
+                    RemoveMessageFromChat(e.Message);
             }
+        }
+
+        private void RemoveMessageFromChat(Message message)
+        {
+            throw new NotImplementedException();
         }
 
         private void SetChannelSettings(Message message)
@@ -46,13 +53,13 @@ namespace VseChitayutBot
             {
                 channelId = id;
                 string msg = string.Format("Канал {0} с id {1} сохранен", chat.Title, chat.Id);
-                SendTextMessageAsync(message.From.Id, msg);
+                SendTextMessageAsync(message.From.Id, msg).Wait();
             }
             if (chat.Type == ChatType.Group || chat.Type == ChatType.Supergroup)
             {
                 chatId = id;
                 string msg = string.Format("Чат {0} с id {1} сохранен", chat.Title, chat.Id);
-                SendTextMessageAsync(message.From.Id, msg);
+                SendTextMessageAsync(message.From.Id, msg).Wait();
             }
                 if (channelId != 0 && chatId != 0) SaveSettings();
         }
