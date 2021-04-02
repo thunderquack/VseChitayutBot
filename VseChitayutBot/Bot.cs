@@ -60,13 +60,13 @@ namespace VseChitayutBot
             if (chat.Type == ChatType.Channel)
             {
                 channelId = id;
-                string msg = string.Format("Канал {0} с id {1} сохранен", chat.Title, chat.Id);
+                string msg = string.Format("Канал \"{0}\" с id {1} сохранен", chat.Title, chat.Id);
                 SendTextMessageAsync(message.From.Id, msg).Wait();
             }
             if (chat.Type == ChatType.Group || chat.Type == ChatType.Supergroup)
             {
                 chatId = id;
-                string msg = string.Format("Чат {0} с id {1} сохранен", chat.Title, chat.Id);
+                string msg = string.Format("Чат \"{0}\" с id {1} сохранен", chat.Title, chat.Id);
                 SendTextMessageAsync(message.From.Id, msg).Wait();
             }
                 if (channelId != 0 && chatId != 0) SaveSettings();
