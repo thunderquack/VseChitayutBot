@@ -34,17 +34,25 @@ namespace VseChitayutBot
             }
             if (productiveMode)
             {
-                if (e.Message.ForwardFromChat?.Id == channelId &&
+                try
+                {
+                    if (e.Message.ForwardFromChat?.Id == channelId &&
                     e.Message.Chat?.Id == chatId)
                     RemoveMessageFromChat(e.Message);
+                }
+                catch (Exception err)
+                {
+
+                }
             }
         }
 
+
         private void RemoveMessageFromChat(Message message)
         {
-            throw new NotImplementedException();
+            DeleteMessageAsync(chatId, message.MessageId).Wait();
+            UnpinChatMessageAsync(chatId).Wait();
         }
-
         private void SetChannelSettings(Message message)
         {
             long id = message.ForwardFromChat.Id;
